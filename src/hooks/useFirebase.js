@@ -10,7 +10,7 @@ const useFirebase = () => {
     const [user, setUser] = useState({});
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(true);
-    const [isAdmin, setIsAdmin] = useState(false);
+    const [isAdmin, setIsAdmin] = useState();
 
     const auth = getAuth();
     const googleProvider = new GoogleAuthProvider();
@@ -104,11 +104,9 @@ const useFirebase = () => {
     useEffect(() => {
         if(user?.email){
             axios.get(`https://protected-fortress-94189.herokuapp.com/users?email=${user?.email}`)
-            .then(({ data }) => {
-                setIsAdmin(data.admin);
-            })
+            .then(({ data }) => setIsAdmin(data.admin))
         }
-    }, [user?.email]);
+    }, [user?.email])
 
     return {
         user, 
