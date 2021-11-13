@@ -1,0 +1,7 @@
+#card{
+    background: linear-gradient(#ffffff, #ecf6f8);
+}
+
+#img{
+    transform: scale(1.1) !important;
+}
