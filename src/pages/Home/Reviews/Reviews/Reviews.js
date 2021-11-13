@@ -10,7 +10,7 @@ const Reviews = () => {
     const { user } = useAuth();
 
     useEffect(() => {
-        axios.get('http://localhost:4000/reviews')
+        axios.get('https://protected-fortress-94189.herokuapp.com/reviews')
         .then(({ data }) => setReviews(data))
     }, []);
 

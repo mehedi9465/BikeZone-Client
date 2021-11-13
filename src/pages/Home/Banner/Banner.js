@@ -7,7 +7,7 @@ const Banner = () => {
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:4000/products')
+        axios.get('https://protected-fortress-94189.herokuapp.com/products')
         .then(({ data }) => setProducts(data))
     }, [])
 

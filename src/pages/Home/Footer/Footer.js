@@ -34,7 +34,7 @@ const Footer = () => {
                     </Col>
 
                     <Col>
-                       <h6 className='mb-4 text-uppercase w-75 text-start mx-auto'>Maiden Tour</h6>
+                       <h6 className='mb-4 text-uppercase w-75 text-start mx-auto'>BikeZone</h6>
                         <p className='my-2 w-75 text-start mx-auto'><small>We have been providing</small></p>
                         <p className='my-2 w-75 text-start mx-auto'><small>quality coverage, superior</small></p>
                         <p className='my-2 w-75 text-start mx-auto'><small>value and personal service</small></p>
@@ -44,7 +44,7 @@ const Footer = () => {
                 </Row>
                 <hr />
             </Container>
-            <p className='text-center'><small>©️ 2021, Maiden Tourism - Travel Multipurpose Theme. All right reserve</small></p>
+            <p className='text-center'><small>©️ 2021, BikeZone - A trusted bike seller. All right reserve</small></p>
         </div>
     );
 };

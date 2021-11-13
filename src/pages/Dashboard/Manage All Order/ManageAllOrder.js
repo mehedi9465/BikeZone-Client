@@ -7,7 +7,7 @@ const ManageAllOrder = () => {
     const [orders, setOrders] = useState([]);
     const [dependency, setDependencey] = useState({});
     useEffect(() => {
-        axios.get('http://localhost:4000/orders')
+        axios.get('https://protected-fortress-94189.herokuapp.com/orders')
         .then(({ data }) => setOrders(data))
     }, [dependency]);
 
@@ -18,7 +18,7 @@ const ManageAllOrder = () => {
             buttons: true,
           }).then(result => {
               if(result){
-                axios.delete(`http://localhost:4000/orders/${id}`)
+                axios.delete(`https://protected-fortress-94189.herokuapp.com/orders/${id}`)
                 .then(({ data }) => {
                     console.log(data);
                     if(data.deletedCount === 1){
@@ -40,7 +40,7 @@ const ManageAllOrder = () => {
             buttons: true,
           }).then(result => {
               if(result){
-                axios.put(`http://localhost:4000/orders/shipping/${id}`)
+                axios.put(`https://protected-fortress-94189.herokuapp.com/orders/shipping/${id}`)
                 .then(({ data }) => {
                     console.log(data);
                     if(data.modifiedCount === 1){

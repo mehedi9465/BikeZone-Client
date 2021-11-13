@@ -14,7 +14,7 @@ const Review = () => {
     const { user } = useAuth();
 
     useEffect(() => {
-        axios.get(`http://localhost:4000/orders/${user?.email}`)
+        axios.get(`https://protected-fortress-94189.herokuapp.com/orders/${user?.email}`)
         .then(({ data }) => {
             console.log(data);
             setOrders(data);
@@ -22,7 +22,7 @@ const Review = () => {
     }, [user?.email]);
 
     useEffect(() => {
-        axios.get(`http://localhost:4000/reviews?email=${user?.email}`)
+        axios.get(`https://protected-fortress-94189.herokuapp.com/reviews?email=${user?.email}`)
         .then(({ data }) => {
             console.log(data);
             setReviews(data);
@@ -43,7 +43,7 @@ const Review = () => {
         reviewData.displayName = user?.displayName;
         reviewData.email = user?.email;
         reviewData.img = user?.photoURL;
-        axios.post('http://localhost:4000/reviews', reviewData)
+        axios.post('https://protected-fortress-94189.herokuapp.com/reviews', reviewData)
         .then(({data}) => {
             setDependency(data)
             if(data.insertedId || data.acknowledged){

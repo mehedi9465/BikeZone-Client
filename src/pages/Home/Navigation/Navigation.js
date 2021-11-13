@@ -19,6 +19,7 @@ const Navigation = () => {
                 <Nav.Link as={HashLink} to="/#products">Products</Nav.Link>
                 <Nav.Link as={HashLink} to="/#about">About</Nav.Link>
                 <Nav.Link as={HashLink} to="/#review">Reviews</Nav.Link>
+                <Nav.Link as={Link} to="/products">Explore All</Nav.Link>
             </Nav>
             
                 {

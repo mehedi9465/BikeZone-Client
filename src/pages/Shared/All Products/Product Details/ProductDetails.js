@@ -10,7 +10,7 @@ const ProductDetails = () => {
     const [modalShow, setModalShow] = React.useState(false);
 
     useEffect(() => {
-        axios.get(`http://localhost:4000/products/${productId}`)
+        axios.get(`https://protected-fortress-94189.herokuapp.com/products/${productId}`)
         .then(({ data }) => setProduct(data))
     }, []);
     console.log(product);

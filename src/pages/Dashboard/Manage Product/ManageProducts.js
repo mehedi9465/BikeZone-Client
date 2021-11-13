@@ -9,7 +9,7 @@ const ManageProducts = ({ url }) => {
     const history = useHistory();
 
     useEffect(() => {
-        axios.get('http://localhost:4000/products')
+        axios.get('https://protected-fortress-94189.herokuapp.com/products')
         .then(({ data }) => setProducts(data))
     }, []);
 
@@ -24,7 +24,7 @@ const ManageProducts = ({ url }) => {
             buttons: true,
           }).then(result => {
               if(result){
-                axios.delete(`http://localhost:4000/products/${id}`)
+                axios.delete(`https://protected-fortress-94189.herokuapp.com/products/${id}`)
                 .then(({ data }) => {
                     console.log(data);
                     if(data.deletedCount === 1){

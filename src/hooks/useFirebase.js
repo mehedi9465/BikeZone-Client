@@ -62,7 +62,7 @@ const useFirebase = () => {
 
     const saveUser = (email, displayName, method) => {
         const user = {email, displayName};
-        fetch('http://localhost:4000/users', {
+        fetch('https://protected-fortress-94189.herokuapp.com/users', {
             method: method,
             headers: {
                 'content-type': 'application/json'
@@ -103,7 +103,7 @@ const useFirebase = () => {
 
     useEffect(() => {
         if(user?.email){
-            axios.get(`http://localhost:4000/users?email=${user?.email}`)
+            axios.get(`https://protected-fortress-94189.herokuapp.com/users?email=${user?.email}`)
             .then(({ data }) => {
                 setIsAdmin(data.admin);
             })

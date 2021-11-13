@@ -9,7 +9,7 @@ const MyOrders = () => {
     const { user } = useAuth();
 
     useEffect(() => {
-        axios.get(`http://localhost:4000/orders/${user?.email}`)
+        axios.get(`https://protected-fortress-94189.herokuapp.com/orders/${user?.email}`)
         .then(({ data }) => {
             console.log(data);
             setorders(data);
@@ -23,7 +23,7 @@ const MyOrders = () => {
             buttons: true,
           }).then(result => {
               if(result){
-                axios.delete(`http://localhost:4000/orders/${id}`)
+                axios.delete(`https://protected-fortress-94189.herokuapp.com/orders/${id}`)
                 .then(({ data }) => {
                     console.log(data);
                     if(data.deletedCount === 1){

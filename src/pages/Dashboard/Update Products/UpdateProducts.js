@@ -9,7 +9,7 @@ const UpdateProducts = () => {
     const { productId } = useParams();
 
     useEffect(() => {
-        axios.get(`http://localhost:4000/products/${productId}`)
+        axios.get(`https://protected-fortress-94189.herokuapp.com/products/${productId}`)
         .then(({ data }) => setProductInfo(data))    
     }, [productId])
     
@@ -25,7 +25,7 @@ const UpdateProducts = () => {
         console.log(e);
         e.preventDefault();
         console.log(productInfo);
-        axios.put('http://localhost:4000/products', productInfo)
+        axios.put('https://protected-fortress-94189.herokuapp.com/products', productInfo)
         .then(({ data }) => {
             console.log(data);
             if(data.modifiedCount){

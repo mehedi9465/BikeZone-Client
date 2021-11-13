@@ -9,7 +9,7 @@ const MakeAdmin = () => {
     const [dependency, setDependency] = useState({});
 
     useEffect(() => {
-        axios.get('http://localhost:4000/users/admin')
+        axios.get('https://protected-fortress-94189.herokuapp.com/users/admin')
         .then(({data}) => setAdminList(data))
     }, [dependency]);
 
@@ -17,7 +17,7 @@ const MakeAdmin = () => {
 
     const handleOnSubmit = e => {
         e.preventDefault();
-        axios.put(`http://localhost:4000/users/admin/${email.toLowerCase()}`)
+        axios.put(`https://protected-fortress-94189.herokuapp.com/users/admin/${email.toLowerCase()}`)
         .then(({ data }) => {
             if(data.modifiedCount){
                 swal({

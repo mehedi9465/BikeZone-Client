@@ -34,7 +34,7 @@ const PlaceOrderModal = (props) => {
             ...orderData,
             ...defaultValues
         }
-        axios.post('http://localhost:4000/orders', order)
+        axios.post('https://protected-fortress-94189.herokuapp.com/orders', order)
         .then(({ data }) => {
             if(data.insertedId){
                 swal({
