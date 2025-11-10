@@ -16,7 +16,7 @@ const AddProduct = () => {
 
     const handleOnSubmit = e => {
         e.preventDefault();
-        axios.post('https://protected-fortress-94189.herokuapp.com/products', productInfo)
+        axios.post('https://bikezone-server.onrender.com/products', productInfo)
         .then(({ data }) => {
             if(data.insertedId){
                 swal({

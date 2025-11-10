@@ -20,11 +20,14 @@ const useFirebase = () => {
         signInWithPopup(auth, googleProvider)
         .then(res => {
             const user = res.user;
-            saveUser(user.email, user.displayName, "PUT")
+            saveUser(user.email, user.displayName, "PUT");
             setError('');
             const des = location?.state?.from || '/';
             history.replace(des);
-        }).catch(e => setError(e.message))
+        }).catch(e => {
+            console.error('Google Sign In Error:', e);
+            setError(e.message);
+        })
         .finally(() => setIsLoading(false))
     }
 
@@ -37,8 +40,15 @@ const useFirebase = () => {
             updateProfile(auth.currentUser, {
                 displayName: name
             }).then(() => {
-            }).catch(e => setError(e.message))
-        }).catch(e => setError(e.message))
+                // Profile updated
+            }).catch(e => {
+                console.error('Update Profile Error:', e);
+                setError(e.message);
+            })
+        }).catch(e => {
+            console.error('Register Error:', e);
+            setError(e.message);
+        })
         .finally(() => setIsLoading(false))
     }
 
@@ -49,44 +59,65 @@ const useFirebase = () => {
             setError('');
             const des = location?.state?.from || '/';
             history.replace(des);
-        }).catch(e => setError(e.message))
+        }).catch(e => {
+            console.error('Login Error:', e);
+            setError(e.message);
+        })
         .finally(() => setIsLoading(false))
     }
 
     const logOut = () => {
         signOut(auth)
         .then(() => {
-
-        }).catch(e => setError(e.message))
+            setUser({});
+        }).catch(e => {
+            console.error('Logout Error:', e);
+            setError(e.message);
+        })
     }
 
     const saveUser = (email, displayName, method) => {
         const user = {email, displayName};
-        fetch('https://protected-fortress-94189.herokuapp.com/users', {
+        fetch('https://bikezone-server.onrender.com/users', {
             method: method,
             headers: {
                 'content-type': 'application/json'
             },
             body: JSON.stringify(user)
         })
-        .then(res => res.json())
+        .then(res => {
+            console.log('Response status:', res.status);
+            if (!res.ok) {
+                throw new Error(`HTTP error! status: ${res.status}`);
+            }
+            return res.json();
+        })
         .then(data => {
-            console.log(data);
-            if(data.insertedId || data.acknowledged){
+            console.log('Save user response:', data);
+            if(data.insertedId || data.acknowledged || data.modifiedCount >= 0){
                 swal({
                     title: "Welcome!",
                     icon: "success",
                     button: "ok",
-                  });
+                });
             }
             else {
                 swal({
                     title: "Something Went Wrong!",
                     icon: "error",
                     button: "ok",
-                  });
+                });
             }
         })
+        .catch(error => {
+            console.error('Error saving user:', error);
+            swal({
+                title: "Connection Error!",
+                text: error.message,
+                icon: "error",
+                button: "ok",
+            });
+        });
     } 
 
     useEffect(() => {
@@ -103,8 +134,11 @@ const useFirebase = () => {
 
     useEffect(() => {
         if(user?.email){
-            axios.get(`https://protected-fortress-94189.herokuapp.com/users?email=${user?.email}`)
+            axios.get(`https://bikezone-server.onrender.com/users?email=${user?.email}`)
             .then(({ data }) => setIsAdmin(data.admin))
+            .catch(error => {
+                console.error('Error fetching admin status:', error);
+            });
         }
     }, [user?.email])
 

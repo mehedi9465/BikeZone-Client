@@ -1,10 +1,17 @@
 const firebaseConfig = {
-    apiKey: process.env.REACT_APP_API_KEY,
-    authDomain: process.env.REACT_APP_AUTH_DOMAIN,
-    projectId: process.env.REACT_APP_PROJECT_ID,
-    storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
-    messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
-    appId: process.env.REACT_APP_APP_ID
+    // apiKey: process.env.REACT_APP_API_KEY,
+    // authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+    // projectId: process.env.REACT_APP_PROJECT_ID,
+    // storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+    // messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+    // appId: process.env.REACT_APP_APP_ID
+
+     apiKey: "AIzaSyAFump0mkQdtxqpZ2_dYDSMqWprZBbPcuw",
+  authDomain: "bikezone-a79ff.firebaseapp.com",
+  projectId: "bikezone-a79ff",
+  storageBucket: "bikezone-a79ff.firebasestorage.app",
+  messagingSenderId: "1067547068909",
+  appId: "1:1067547068909:web:e35126ded7eac7e9e87fe4"
   };
 
 export default firebaseConfig

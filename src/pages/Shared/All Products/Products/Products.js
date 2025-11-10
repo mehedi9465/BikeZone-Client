@@ -10,7 +10,7 @@ const Products = () => {
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
-        axios.get('https://protected-fortress-94189.herokuapp.com/products')
+        axios.get('https://bikezone-server.onrender.com/products')
         .then(({ data }) => setProducts(data))
     }, [])
 

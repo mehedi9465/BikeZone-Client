@@ -21,7 +21,7 @@ const HomeProducts = () => {
     console.log(displayProducts);
 
     useEffect(() => {
-        axios.get('https://protected-fortress-94189.herokuapp.com/products')
+        axios.get('https://bikezone-server.onrender.com/products')
         .then(({ data }) => {
             if(data[0]){
                 setProducts(data)

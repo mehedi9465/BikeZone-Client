@@ -34,7 +34,7 @@ const PlaceOrderModal = (props) => {
             ...orderData,
             ...defaultValues
         }
-        axios.post('https://protected-fortress-94189.herokuapp.com/orders', order)
+        axios.post('https://bikezone-server.onrender.com/orders', order)
         .then(({ data }) => {
             if(data.insertedId){
                 swal({
