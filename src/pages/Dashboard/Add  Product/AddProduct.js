@@ -1,224 +1,369 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { Col, Container, Form, Row, Button } from 'react-bootstrap';
+import { Container, Form, Button, Spinner } from 'react-bootstrap';
 import swal from 'sweetalert';
 
 const AddProduct = () => {
     const [productInfo, setProductInfo] = useState({});
+    const [loading, setLoading] = useState(false);
 
     const handleOnBlur = e => {
         const field = e.target.name;
         const value = e.target.value;
         const newInfo = { ...productInfo };
         newInfo[field] = value;
-        setProductInfo(newInfo)
+        setProductInfo(newInfo);
     } 
 
     const handleOnSubmit = e => {
         e.preventDefault();
-        axios.post('https://protected-fortress-94189.herokuapp.com/products', productInfo)
+        setLoading(true);
+        axios.post('https://bikezone-server.onrender.com/products', productInfo)
         .then(({ data }) => {
+            setLoading(false);
             if(data.insertedId){
                 swal({
-                    title: "Successfully Added!",
+                    title: "Success!",
+                    text: "Product has been added successfully",
                     icon: "success",
-                    button: "ok",
-                  });
+                    button: "OK",
+                });
+                e.target.reset();
+                setProductInfo({});
             }
             else{
                 swal({
-                    title: "Failed to add!",
+                    title: "Failed!",
+                    text: "Failed to add product",
                     icon: "error",
-                    button: "ok",
-                  });
+                    button: "OK",
+                });
             }
         })
+        .catch(error => {
+            setLoading(false);
+            swal({
+                title: "Error!",
+                text: "Something went wrong",
+                icon: "error",
+                button: "OK",
+            });
+        });
     }
+
+    const inputStyle = {
+        padding: '12px 16px',
+        fontSize: '14px',
+        borderRadius: '8px',
+        border: '1px solid #dee2e6',
+        transition: 'all 0.3s ease',
+        width: '100%'
+    };
+
+    const labelStyle = {
+        fontWeight: '600',
+        fontSize: '14px',
+        color: '#495057',
+        marginBottom: '8px',
+        display: 'block'
+    };
+
     return (
-        <>
+        <div style={{ padding: '30px', backgroundColor: '#f8f9fa', minHeight: '100vh' }}>
             <Container>
-                <Row className='justify-content-center my-5 py-5'>
-                    <Col xl={8} lg={9} md={10} sm={9} xs={9}>
-                    <Form validated onSubmit={handleOnSubmit}>
-                    <Row className="mb-3">
-                        <Form.Group
-                        as={Col}
-                        md="4"
-                        className="position-relative"
-                        >
-                        <Form.Label>Bike Model</Form.Label>
-                        <Form.Control
-                            onBlur={handleOnBlur}
-                            type="text"
-                            name="title"
-                        />
-                        </Form.Group>
+                {/* Header */}
+                <div style={{
+                    background: 'white',
+                    borderRadius: '12px',
+                    padding: '25px 30px',
+                    marginBottom: '25px',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
+                }}>
+                    <h2 style={{ margin: '0', fontSize: '28px', fontWeight: '700', color: '#2c3e50' }}>
+                        Add New Product
+                    </h2>
+                    <p style={{ margin: '5px 0 0 0', color: '#6c757d', fontSize: '14px' }}>
+                        Fill in the details to add a new bike to your inventory
+                    </p>
+                </div>
 
-                        <Form.Group
-                        as={Col}
-                        md="4"
-                        className="position-relative"
-                        >
-                        <Form.Label>Max Power</Form.Label>
-                        <Form.Control
-                            onBlur={handleOnBlur}
-                            type="text"
-                            name="max_power"
-                        />
-                        </Form.Group>
+                {/* Form Card */}
+                <div style={{
+                    background: 'white',
+                    borderRadius: '12px',
+                    padding: '40px',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
+                }}>
+                    <Form onSubmit={handleOnSubmit}>
+                        {/* Basic Information Section */}
+                        <div style={{ marginBottom: '30px' }}>
+                            <h5 style={{ 
+                                fontSize: '18px', 
+                                fontWeight: '600', 
+                                color: '#2c3e50',
+                                marginBottom: '20px',
+                                paddingBottom: '10px',
+                                borderBottom: '2px solid #e9ecef'
+                            }}>
+                                Basic Information
+                            </h5>
+                            
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px' }}>
+                                <div>
+                                    <label style={labelStyle}>Bike Model *</label>
+                                    <input
+                                        onBlur={handleOnBlur}
+                                        type="text"
+                                        name="title"
+                                        placeholder="Enter bike model"
+                                        style={inputStyle}
+                                        required
+                                    />
+                                </div>
 
-                        <Form.Group
-                        as={Col}
-                        md="4"
-                        className="position-relative"
-                        >
-                        <Form.Label>Max Torque</Form.Label>
-                        <Form.Control
-                            onBlur={handleOnBlur}
-                            type="text"
-                            name="max_torque"
-                        />
-                        </Form.Group>
+                                <div>
+                                    <label style={labelStyle}>Price *</label>
+                                    <input
+                                        onBlur={handleOnBlur}
+                                        type="text"
+                                        name="price"
+                                        placeholder="Enter price"
+                                        style={inputStyle}
+                                        required
+                                    />
+                                </div>
 
-                    </Row>
+                                <div>
+                                    <label style={labelStyle}>Image URL *</label>
+                                    <input
+                                        onBlur={handleOnBlur}
+                                        type="text"
+                                        name="img"
+                                        placeholder="Enter image link"
+                                        style={inputStyle}
+                                        required
+                                    />
+                                </div>
+                            </div>
+                        </div>
 
-                    <Row className="mb-3">
-                        <Form.Group
-                        as={Col}
-                        md="3"
-                        className="position-relative"
-                        >
-                        <Form.Label>Displacement</Form.Label>
-                        <Form.Control
-                            onBlur={handleOnBlur}
-                            type="text"
-                            name="displacement"
-                        />
-                        </Form.Group>
+                        {/* Engine Specifications Section */}
+                        <div style={{ marginBottom: '30px' }}>
+                            <h5 style={{ 
+                                fontSize: '18px', 
+                                fontWeight: '600', 
+                                color: '#2c3e50',
+                                marginBottom: '20px',
+                                paddingBottom: '10px',
+                                borderBottom: '2px solid #e9ecef'
+                            }}>
+                                Engine Specifications
+                            </h5>
+                            
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
+                                <div>
+                                    <label style={labelStyle}>Max Power</label>
+                                    <input
+                                        onBlur={handleOnBlur}
+                                        type="text"
+                                        name="max_power"
+                                        placeholder="e.g., 15 bhp"
+                                        style={inputStyle}
+                                    />
+                                </div>
 
-                        <Form.Group
-                        as={Col}
-                        md="3"
-                        className="position-relative"
-                        >
-                        <Form.Label>Cylinders</Form.Label>
-                        <Form.Control
-                            onBlur={handleOnBlur}
-                            type="number"
-                            name="cylinders"
-                        />
-                        </Form.Group>
+                                <div>
+                                    <label style={labelStyle}>Max Torque</label>
+                                    <input
+                                        onBlur={handleOnBlur}
+                                        type="text"
+                                        name="max_torque"
+                                        placeholder="e.g., 12 Nm"
+                                        style={inputStyle}
+                                    />
+                                </div>
 
-                        <Form.Group
-                        as={Col}
-                        md="3"
-                        className="position-relative"
-                        >
-                        <Form.Label>Emission</Form.Label>
-                        <Form.Control
-                            onBlur={handleOnBlur}
-                            type="text"
-                            name="emission"
-                        />
-                        </Form.Group>
-                        <Form.Group
-                        as={Col}
-                        md="3"
-                        className="position-relative"
-                        >
-                        <Form.Label>Gear</Form.Label>
-                        <Form.Control
-                            onBlur={handleOnBlur}
-                            type="number"
-                            name="gear"
-                        />
-                        </Form.Group>
-                    </Row>
-                    
-                    <Row className="mb-3">
-                        <Form.Group
-                        as={Col}
-                        md="3"
-                        className="position-relative"
-                        >
-                        <Form.Label>Fuel</Form.Label>
-                        <Form.Control
-                            onBlur={handleOnBlur}
-                            type="text"
-                            name="fuel_capacity"
-                        />
-                        </Form.Group>
+                                <div>
+                                    <label style={labelStyle}>Displacement</label>
+                                    <input
+                                        onBlur={handleOnBlur}
+                                        type="text"
+                                        name="displacement"
+                                        placeholder="e.g., 150cc"
+                                        style={inputStyle}
+                                    />
+                                </div>
 
-                        <Form.Group
-                        as={Col}
-                        md="3"
-                        className="position-relative"
-                        >
-                        <Form.Label>Milage</Form.Label>
-                        <Form.Control
-                            onBlur={handleOnBlur}
-                            type="number"
-                            name="milage"
-                        />
-                        </Form.Group>
+                                <div>
+                                    <label style={labelStyle}>Cylinders</label>
+                                    <input
+                                        onBlur={handleOnBlur}
+                                        type="number"
+                                        name="cylinders"
+                                        placeholder="e.g., 1"
+                                        style={inputStyle}
+                                    />
+                                </div>
 
-                        <Form.Group
-                        as={Col}
-                        md="3"
-                        className="position-relative"
-                        >
-                        <Form.Label>Image Link</Form.Label>
-                        <Form.Control
-                            onBlur={handleOnBlur}
-                            type="text"
-                            name="img"
-                        />
-                        </Form.Group>
+                                <div>
+                                    <label style={labelStyle}>Emission</label>
+                                    <input
+                                        onBlur={handleOnBlur}
+                                        type="text"
+                                        name="emission"
+                                        placeholder="e.g., BS6"
+                                        style={inputStyle}
+                                    />
+                                </div>
 
-                        <Form.Group
-                        as={Col}
-                        md="3"
-                        className="position-relative"
-                        >
-                        <Form.Label>Price</Form.Label>
-                        <Form.Control
-                            onBlur={handleOnBlur}
-                            type="text"
-                            name="price"
-                        />
-                        </Form.Group>
-                    </Row>
+                                <div>
+                                    <label style={labelStyle}>Gear</label>
+                                    <input
+                                        onBlur={handleOnBlur}
+                                        type="number"
+                                        name="gear"
+                                        placeholder="e.g., 5"
+                                        style={inputStyle}
+                                    />
+                                </div>
+                            </div>
 
-                    <Row>
-                    <Form.Group
-                        as={Col}
-                        md="5"
-                        className="position-relative"
-                        >
-                        <Form.Label>Engine</Form.Label>
-                        <Form.Control
-                            onBlur={handleOnBlur}
-                            type="text"
-                            name="engine"
-                        />
-                    </Form.Group>
+                            <div style={{ marginTop: '20px' }}>
+                                <label style={labelStyle}>Engine Type</label>
+                                <input
+                                    onBlur={handleOnBlur}
+                                    type="text"
+                                    name="engine"
+                                    placeholder="e.g., 4-Stroke, Single Cylinder"
+                                    style={inputStyle}
+                                />
+                            </div>
+                        </div>
 
-                    <Form.Group
-                        as={Col}
-                        md="7"
-                        className="position-relative"
-                        >
-                        <Form.Label>Description</Form.Label>
-                        <textarea onBlur={handleOnBlur} className='form-control' name="description" />
-                    </Form.Group>
-                    </Row>
+                        {/* Performance Section */}
+                        <div style={{ marginBottom: '30px' }}>
+                            <h5 style={{ 
+                                fontSize: '18px', 
+                                fontWeight: '600', 
+                                color: '#2c3e50',
+                                marginBottom: '20px',
+                                paddingBottom: '10px',
+                                borderBottom: '2px solid #e9ecef'
+                            }}>
+                                Performance
+                            </h5>
+                            
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px' }}>
+                                <div>
+                                    <label style={labelStyle}>Fuel Capacity</label>
+                                    <input
+                                        onBlur={handleOnBlur}
+                                        type="text"
+                                        name="fuel_capacity"
+                                        placeholder="e.g., 12 liters"
+                                        style={inputStyle}
+                                    />
+                                </div>
 
-                    <Button className='mt-4' type="submit">Add Product</Button>
+                                <div>
+                                    <label style={labelStyle}>Mileage</label>
+                                    <input
+                                        onBlur={handleOnBlur}
+                                        type="number"
+                                        name="milage"
+                                        placeholder="e.g., 45 km/l"
+                                        style={inputStyle}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Description Section */}
+                        <div style={{ marginBottom: '30px' }}>
+                            <h5 style={{ 
+                                fontSize: '18px', 
+                                fontWeight: '600', 
+                                color: '#2c3e50',
+                                marginBottom: '20px',
+                                paddingBottom: '10px',
+                                borderBottom: '2px solid #e9ecef'
+                            }}>
+                                Description
+                            </h5>
+                            
+                            <label style={labelStyle}>Product Description</label>
+                            <textarea 
+                                onBlur={handleOnBlur} 
+                                name="description"
+                                rows="5"
+                                placeholder="Enter detailed description of the bike..."
+                                style={{
+                                    ...inputStyle,
+                                    resize: 'vertical',
+                                    fontFamily: 'inherit'
+                                }}
+                            />
+                        </div>
+
+                        {/* Submit Button */}
+                        <div style={{ display: 'flex', gap: '15px', justifyContent: 'flex-end', marginTop: '30px' }}>
+                            <Button
+                                type="button"
+                                style={{
+                                    padding: '12px 30px',
+                                    borderRadius: '8px',
+                                    border: '1px solid #dee2e6',
+                                    background: 'white',
+                                    color: '#495057',
+                                    fontWeight: '600',
+                                    fontSize: '14px',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.3s ease'
+                                }}
+                                onClick={() => {
+                                    document.querySelector('form').reset();
+                                    setProductInfo({});
+                                }}
+                            >
+                                Reset
+                            </Button>
+                            <Button
+                                type="submit"
+                                disabled={loading}
+                                style={{
+                                    padding: '12px 40px',
+                                    borderRadius: '8px',
+                                    border: 'none',
+                                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                                    color: 'white',
+                                    fontWeight: '600',
+                                    fontSize: '14px',
+                                    cursor: loading ? 'not-allowed' : 'pointer',
+                                    transition: 'all 0.3s ease',
+                                    opacity: loading ? 0.7 : 1
+                                }}
+                            >
+                                {loading ? (
+                                    <>
+                                        <Spinner
+                                            as="span"
+                                            animation="border"
+                                            size="sm"
+                                            role="status"
+                                            aria-hidden="true"
+                                            style={{ marginRight: '8px' }}
+                                        />
+                                        Adding...
+                                    </>
+                                ) : (
+                                    '➕ Add Product'
+                                )}
+                            </Button>
+                        </div>
                     </Form>
-                    </Col>
-                </Row>
+                </div>
             </Container>
-        </>
+        </div>
     );
 };
 

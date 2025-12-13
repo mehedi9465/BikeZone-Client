@@ -1,4 +1,5 @@
 import './App.css';
+import 'leaflet/dist/leaflet.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Home from './pages/Home/Home/Home';
